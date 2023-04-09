@@ -9,9 +9,9 @@ echo "## Teste interne Integrität des Repositories"
 git fsck --full --no-dangling
 
 echo ""
-echo "## Entpacke alle $(git cat-file --batch-all-objects --batch-check='%(objectname) %(objecttype)' | grep -c blob) Blobs nach $tmpDir"
+echo "## Entpacke alle $(git cat-file --buffer --batch-all-objects --batch-check='%(objectname) %(objecttype)' | grep -c blob) Blobs nach $tmpDir"
 
-for object in $(git cat-file --batch-all-objects --batch-check='%(objectname) %(objecttype)' | grep blob | cut -d" " -f1,3-); do
+for object in $(git cat-file --buffer --batch-all-objects --batch-check='%(objectname) %(objecttype)' | grep blob | cut -d" " -f1,3-); do
   echo -ne "Entpacke Blob: $object\033[0K\r"
 
   mkdir -p $tmpDir/"${object:0:2}"
