@@ -14,7 +14,10 @@ echo "## Entpacke alle $(git cat-file --buffer --batch-all-objects --batch-check
 for object in $(git cat-file --buffer --batch-all-objects --batch-check='%(objectname) %(objecttype)' | grep blob | cut -d" " -f1,3-); do
   echo -ne "Entpacke Blob: $object\033[0K\r"
 
-  mkdir -p $tmpDir/"${object:0:2}"
+  if [ ! -d $tmpDir/"${object:0:2}" ]; then
+    mkdir -p $tmpDir/"${object:0:2}"
+  fi
+
   git cat-file -p $object > $tmpDir/"${object:0:2}"/"$object".blob
 done
 echo ""
